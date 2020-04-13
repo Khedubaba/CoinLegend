@@ -3,44 +3,42 @@ package com.adityakhedekar.khedubaba.coinlegend.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
+
 import java.util.ArrayList;
 import java.util.Random;
 
 public class CoinLegend extends ApplicationAdapter {
-	SpriteBatch batch;
-	Texture background;
-	Texture[] man;
-	int manState = 0;
-	int pause = 0;
-	float gravity = 0.2f;
-	float velocity = 0;
-	float manY = 0;
-	Rectangle manRectangle;
-	Random random;
+	private SpriteBatch batch;
+	private Texture background;
+	private Texture[] man;
+	private int manState = 0;
+	private int pause = 0;
+	private float velocity = 0;
+	private float manY = 0;
+	private Random random;
 
-	ArrayList<Integer> coinXs = new ArrayList<>();
-	ArrayList<Integer> coinYs = new ArrayList<>();
-	ArrayList<Rectangle> coinRectangles = new ArrayList<>();
-	Texture coin;
-	int coinCount;
+	private ArrayList<Integer> coinXs = new ArrayList<>();
+	private ArrayList<Integer> coinYs = new ArrayList<>();
+	private ArrayList<Rectangle> coinRectangles = new ArrayList<>();
+	private Texture coin;
+	private int coinCount;
 
-	ArrayList<Integer> bombXs = new ArrayList<>();
-	ArrayList<Integer> bombYs = new ArrayList<>();
-	ArrayList<Rectangle> bombRectangles = new ArrayList<>();
-	Texture bomb;
-	int bombCount;
+	private ArrayList<Integer> bombXs = new ArrayList<>();
+	private ArrayList<Integer> bombYs = new ArrayList<>();
+	private ArrayList<Rectangle> bombRectangles = new ArrayList<>();
+	private Texture bomb;
+	private int bombCount;
 
-	int score;
-	int gameState = 0;
-	BitmapFont font;
+	private int score;
+	private int gameState = 0;
+	private BitmapFont font;
 
-	Texture dizzy;
+	private Texture dizzy;
 
 	@Override
 	public void create () {
@@ -63,13 +61,13 @@ public class CoinLegend extends ApplicationAdapter {
 		font.getData().setScale(10);
 	}
 
-	public void makeCoin(){
+	private void makeCoin(){
 		float height = random.nextFloat() * Gdx.graphics.getHeight();
 		coinYs.add((int)height);
 		coinXs.add(Gdx.graphics.getWidth());
 	}
 
-	public void makeBomb(){
+	private void makeBomb(){
 		float height = random.nextFloat() * Gdx.graphics.getHeight();
 		bombYs.add((int)height);
 		bombXs.add(Gdx.graphics.getWidth());
@@ -94,7 +92,7 @@ public class CoinLegend extends ApplicationAdapter {
 			bombRectangles.clear();
 			for (int i=0; i<bombXs.size(); i++){
 				batch.draw(bomb, bombXs.get(i), bombYs.get(i));
-				bombXs.set(i, bombXs.get(i) - 8);
+				bombXs.set(i, bombXs.get(i) - 6);
 				bombRectangles.add(new Rectangle(bombXs.get(i), bombYs.get(i), bomb.getWidth(), bomb.getWidth()));
 			}
 
@@ -118,7 +116,7 @@ public class CoinLegend extends ApplicationAdapter {
 				velocity = -10;
 			}
 
-			if (pause < 8){
+			if (pause < 6){
 				pause++;
 			}
 			else{
@@ -131,6 +129,7 @@ public class CoinLegend extends ApplicationAdapter {
 				}
 			}
 
+			float gravity = 0.29f;
 			velocity += gravity;
 			manY -= velocity;
 			if (manY <= 0){
@@ -162,7 +161,7 @@ public class CoinLegend extends ApplicationAdapter {
 			batch.draw(man[manState], Gdx.graphics.getWidth() / 2f - man[manState].getWidth() / 2f, manY);
 		}
 
-		manRectangle = new Rectangle(Gdx.graphics.getWidth() / 2 - man[manState].getWidth() / 2, (int)manY, man[manState].getWidth(),
+		Rectangle manRectangle = new Rectangle(Gdx.graphics.getWidth() / 2f - man[manState].getWidth() / 2f, (int) manY, man[manState].getWidth(),
 				man[manState].getWidth());
 
 		for (int i=0; i<coinRectangles.size(); i++){
@@ -185,6 +184,7 @@ public class CoinLegend extends ApplicationAdapter {
 		font.draw(batch, String.valueOf(score), 100, 200);
 
 		batch.end();
+
 	}
 	
 	@Override
